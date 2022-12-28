@@ -1,4 +1,20 @@
-class Contrato {
+import 'package:hive/hive.dart';
+
+part 'contrato.g.dart';
+
+@HiveType(typeId: 0)
+class Contrato extends HiveObject {
+  @HiveField(0)
+  int? id;
+  @HiveField(1)
+  String? mes;
+  @HiveField(2)
+  String? numero;
+  @HiveField(3)
+  String? nombre;
+  @HiveField(4)
+  double? precio;
+
   Contrato({
     this.id,
     this.mes,
@@ -6,12 +22,6 @@ class Contrato {
     this.nombre,
     this.precio,
   });
-
-  int? id;
-  String? mes;
-  String? numero;
-  String? nombre;
-  double? precio;
 
   factory Contrato.fromJson(Map<String, dynamic> json) => Contrato(
         id: json["id"],
