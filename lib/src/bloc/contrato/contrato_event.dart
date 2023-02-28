@@ -1,34 +1,38 @@
 part of 'contrato_bloc.dart';
 
-abstract class ContratoEvent extends Equatable {
-  const ContratoEvent();
-
-  @override
-  List<Object> get props => [];
+abstract class ContratoEvent {
+  factory ContratoEvent.getContratosMesEvent(String mes) =>
+      _GetContratosMesEvent(mes: mes);
+  factory ContratoEvent.addContratoMesEvent(Contrato contrato) =>
+      _AddContratoMesEvent(contrato: contrato);
+  factory ContratoEvent.deleteContratoMesEvent(int id, String mes) =>
+      _DeleteContratoMesEvent(id: id, mes: mes);
+  factory ContratoEvent.updateContratoMesEvent(int key, Contrato contrato) =>
+      _UpdateContratoMesEvent(contrato: contrato, key: key);
 }
 
-class GetContratosMesEvent extends ContratoEvent {
+class _GetContratosMesEvent implements ContratoEvent {
   final String mes;
 
-  const GetContratosMesEvent(this.mes);
+  const _GetContratosMesEvent({required this.mes});
 }
 
-class AddContratoMesEvent extends ContratoEvent {
+class _AddContratoMesEvent implements ContratoEvent {
   final Contrato contrato;
 
-  const AddContratoMesEvent(this.contrato);
+  const _AddContratoMesEvent({required this.contrato});
 }
 
-class DeleteContratoMesEvent extends ContratoEvent {
+class _DeleteContratoMesEvent implements ContratoEvent {
   final int id;
   final String mes;
 
-  const DeleteContratoMesEvent(this.id, this.mes);
+  const _DeleteContratoMesEvent({required this.id, required this.mes});
 }
 
-class UpdateContratoMesEvent extends ContratoEvent {
+class _UpdateContratoMesEvent implements ContratoEvent {
   final Contrato contrato;
   final int key;
 
-  const UpdateContratoMesEvent(this.contrato, this.key);
+  const _UpdateContratoMesEvent({required this.contrato, required this.key});
 }

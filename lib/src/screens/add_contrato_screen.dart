@@ -16,7 +16,6 @@ class AddContratoScreen extends StatefulWidget {
 class _AddContratoState extends State<AddContratoScreen> {
   @override
   Widget build(BuildContext context) {
-    // final mes = ModalRoute.of(context)!.settings.arguments as String;
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final mes = arguments['mes'];
@@ -138,7 +137,7 @@ class _ContratosForm extends StatelessWidget {
       child: Column(
         children: [
           const Text(
-            'Inserte los Datos',
+            'Introduzca los Datos',
             style: TextStyle(fontSize: 25.0),
           ),
           const SizedBox(
@@ -146,83 +145,99 @@ class _ContratosForm extends StatelessWidget {
           ),
           Form(
             key: formKey,
-            child: TextFormField(
-              validator: (value) {
-                if (value == '') {
-                  return 'Este Campo no Puede Estar Vacio';
-                }
-                return null;
-              },
-              autofocus: false,
-              initialValue: newContrato?.numero ?? '',
-              textInputAction: TextInputAction.newline,
-              keyboardType: TextInputType.number,
-              textCapitalization: TextCapitalization.words,
-              decoration: InputDecoration(
-                hintText: 'Código del Contrato',
-                labelText: 'Código',
-                suffixIcon: const Icon(Icons.format_list_numbered),
-                icon: const Icon(Icons.numbers),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-              ),
-              onChanged: (valor) {
-                codigo = valor;
-              },
+            child: Column(
+              children: [
+                TextFormField(
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value == '') {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value.isEmpty) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    }
+                    return null;
+                  },
+                  autofocus: false,
+                  initialValue: newContrato?.numero ?? '',
+                  textInputAction: TextInputAction.newline,
+                  keyboardType: TextInputType.number,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: InputDecoration(
+                    hintText: 'Código del Contrato',
+                    labelText: 'Código',
+                    suffixIcon: const Icon(Icons.format_list_numbered),
+                    icon: const Icon(Icons.numbers),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  onChanged: (valor) {
+                    codigo = valor;
+                  },
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value == '') {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value.isEmpty) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    }
+                    return null;
+                  },
+                  autofocus: false,
+                  textInputAction: TextInputAction.newline,
+                  textCapitalization: TextCapitalization.sentences,
+                  initialValue: newContrato?.nombre ?? '',
+                  decoration: InputDecoration(
+                    hintText: 'Nombre de la Persona',
+                    labelText: 'Nombre',
+                    suffixIcon: const Icon(Icons.accessibility),
+                    icon: const Icon(Icons.account_circle),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  onChanged: (valor) {
+                    nombre = valor;
+                  },
+                ),
+                const SizedBox(
+                  height: 40.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value == '') {
+                      return 'Este Campo no Puede Estar Vacio';
+                    } else if (value.isEmpty) {
+                      return 'Este Campo no Puede Estar Vacio';
+                    }
+                    return null;
+                  },
+                  autofocus: false,
+                  keyboardType: TextInputType.number,
+                  initialValue: newContrato?.precio.toString() ?? '',
+                  textInputAction: TextInputAction.newline,
+                  textCapitalization: TextCapitalization.sentences,
+                  decoration: InputDecoration(
+                    hintText: 'Valor del Contrato',
+                    labelText: 'Valor',
+                    suffixIcon: const Icon(Icons.done_all_sharp),
+                    icon: const Icon(Icons.monetization_on),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  onChanged: (valor) {
+                    this.valor = (valor != '') ? double.parse(valor) : 0;
+                  },
+                ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 40.0,
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == '') {
-                return 'Este Campo no Puede Estar Vacio';
-              }
-              return null;
-            },
-            autofocus: false,
-            textInputAction: TextInputAction.newline,
-            textCapitalization: TextCapitalization.sentences,
-            initialValue: newContrato?.nombre ?? '',
-            decoration: InputDecoration(
-              hintText: 'Nombre de la Persona',
-              labelText: 'Nombre',
-              suffixIcon: const Icon(Icons.accessibility),
-              icon: const Icon(Icons.account_circle),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-            ),
-            onChanged: (valor) {
-              nombre = valor;
-            },
-          ),
-          const SizedBox(
-            height: 40.0,
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == '') {
-                return 'Este Campo no Puede Estar Vacio';
-              }
-              return null;
-            },
-            autofocus: false,
-            keyboardType: TextInputType.number,
-            initialValue: newContrato?.precio.toString() ?? '',
-            textInputAction: TextInputAction.newline,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(
-              hintText: 'Valor del Contrato',
-              labelText: 'Valor',
-              suffixIcon: const Icon(Icons.done_all_sharp),
-              icon: const Icon(Icons.monetization_on),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
-            ),
-            onChanged: (valor) {
-              this.valor = (valor != '') ? double.parse(valor) : 0;
-            },
           ),
           Expanded(child: Container()),
           Hero(
@@ -260,8 +275,8 @@ class _ContratosForm extends StatelessWidget {
         newContrato!.nombre = nombre;
         newContrato!.numero = codigo;
         newContrato!.precio = valor;
-        BlocProvider.of<ContratoBloc>(context)
-            .add(UpdateContratoMesEvent(newContrato!, keyContrat!));
+        BlocProvider.of<ContratoBloc>(context).add(
+            ContratoEvent.updateContratoMesEvent(keyContrat!, newContrato!));
       } else {
         newContrato = Contrato();
         newContrato!.mes = mes;
@@ -269,7 +284,7 @@ class _ContratosForm extends StatelessWidget {
         newContrato!.numero = codigo;
         newContrato!.precio = valor;
         BlocProvider.of<ContratoBloc>(context)
-            .add(AddContratoMesEvent(newContrato!));
+            .add(ContratoEvent.addContratoMesEvent(newContrato!));
       }
       Navigator.pop(context);
     }

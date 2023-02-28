@@ -11,7 +11,8 @@ class MesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mes = ModalRoute.of(context)!.settings.arguments as String;
-    BlocProvider.of<ContratoBloc>(context).add(GetContratosMesEvent(mes));
+    BlocProvider.of<ContratoBloc>(context)
+        .add(ContratoEvent.getContratosMesEvent(mes));
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: mes,
@@ -55,9 +56,9 @@ class _ListadoContratos extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ContratoBloc, ContratoState>(
       builder: (context, state) {
-        if (state is ContratoSuccessState) {
+        if (state.status == ContratoStatus.success) {
           final contratos = state.contratos;
-          if (contratos!.isEmpty) {
+          if (contratos.isEmpty) {
             return const Center(
               child: Text(
                 'No Hay Información',
@@ -116,7 +117,7 @@ class _ListadoContratos extends StatelessWidget {
               onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart) {
                   BlocProvider.of<ContratoBloc>(context)
-                      .add(DeleteContratoMesEvent(key, mes));
+                      .add(ContratoEvent.deleteContratoMesEvent(key, mes));
                 }
               },
               background: Container(
