@@ -124,7 +124,7 @@ class _ContratosForm extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
       width: size.width * 0.90,
-      height: (size.height < 450.0) ? size.height : size.height * 0.70,
+      height: 500.0,
       decoration: BoxDecoration(
         color: const Color.fromRGBO(255, 255, 255, 0.8),
         borderRadius: BorderRadius.circular(10.0),
