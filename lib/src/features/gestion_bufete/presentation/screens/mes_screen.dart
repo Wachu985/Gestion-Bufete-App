@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gestion_bufete_app/src/bloc/contrato/contrato_bloc.dart';
-import 'package:gestion_bufete_app/src/screens/add_contrato_screen.dart';
-import 'package:gestion_bufete_app/src/screens/home_screen.dart';
-import 'package:gestion_bufete_app/src/widgets/fondo_app.dart';
+
+import '../bloc/gestion_bufete_bloc.dart';
+import '../widgets/fondo_app.dart';
+import 'add_contrato_screen.dart';
+import 'home_screen.dart';
 
 class MesScreen extends StatelessWidget {
   const MesScreen({super.key});
@@ -11,8 +12,8 @@ class MesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mes = ModalRoute.of(context)!.settings.arguments as String;
-    BlocProvider.of<ContratoBloc>(context)
-        .add(ContratoEvent.getContratosMesEvent(mes));
+    BlocProvider.of<GestionBufeteBloc>(context)
+        .add(GestionBufeteEvent.getContratosMesEvent(mes));
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: mes,
@@ -54,7 +55,7 @@ class _ListadoContratos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ContratoBloc, ContratoState>(
+    return BlocBuilder<GestionBufeteBloc, GestionBufeteState>(
       builder: (context, state) {
         if (state.status == ContratoStatus.success) {
           final contratos = state.contratos;
@@ -116,8 +117,8 @@ class _ListadoContratos extends StatelessWidget {
               },
               onDismissed: (direction) {
                 if (direction == DismissDirection.endToStart) {
-                  BlocProvider.of<ContratoBloc>(context)
-                      .add(ContratoEvent.deleteContratoMesEvent(key, mes));
+                  BlocProvider.of<GestionBufeteBloc>(context)
+                      .add(GestionBufeteEvent.deleteContratoMesEvent(key, mes));
                 }
               },
               background: Container(
@@ -176,7 +177,7 @@ class _TitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ContratoBloc, ContratoState>(
+    return BlocBuilder<GestionBufeteBloc, GestionBufeteState>(
       builder: (context, state) {
         return SafeArea(
           child: Container(

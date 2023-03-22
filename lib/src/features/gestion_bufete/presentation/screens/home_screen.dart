@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_bufete_app/src/screens/mes_screen.dart';
-import 'package:gestion_bufete_app/src/widgets/fondo_app.dart';
+
+import '../widgets/fondo_app.dart';
+import 'mes_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

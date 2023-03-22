@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gestion_bufete_app/src/bloc/contrato/contrato_bloc.dart';
-import 'package:gestion_bufete_app/src/screens/mes_screen.dart';
-import 'package:gestion_bufete_app/src/widgets/fondo_app.dart';
 
-import '../models/contrato.dart';
+import '../../data/models/contrato_model.dart';
+import '../bloc/gestion_bufete_bloc.dart';
+import '../widgets/fondo_app.dart';
+import 'mes_screen.dart';
 
 class AddContratoScreen extends StatefulWidget {
   const AddContratoScreen({super.key});
@@ -19,7 +19,8 @@ class _AddContratoState extends State<AddContratoScreen> {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final mes = arguments['mes'];
-    final Contrato? contrato = arguments['contrato'];
+    final ContratoModel contrato = arguments['contrato'] ??
+        const ContratoModel(mes: '', nombre: '', numero: '', precio: 0);
     final int? key = arguments['key'];
     return Scaffold(
       body: Stack(
@@ -108,7 +109,7 @@ class _ContratosForm extends StatelessWidget {
   String codigo = '';
   String nombre = '';
   double valor = 0;
-  Contrato? newContrato;
+  ContratoModel newContrato;
   int? keyContrat;
   final String mes;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -117,9 +118,9 @@ class _ContratosForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    codigo = newContrato?.numero ?? '';
-    nombre = newContrato?.nombre ?? '';
-    valor = newContrato?.precio ?? 0;
+    codigo = newContrato.numero ?? '';
+    nombre = newContrato.nombre ?? '';
+    valor = newContrato.precio ?? 0;
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
@@ -159,7 +160,7 @@ class _ContratosForm extends StatelessWidget {
                     return null;
                   },
                   autofocus: false,
-                  initialValue: newContrato?.numero ?? '',
+                  initialValue: newContrato.numero ?? '',
                   textInputAction: TextInputAction.newline,
                   keyboardType: TextInputType.number,
                   textCapitalization: TextCapitalization.words,
@@ -192,7 +193,7 @@ class _ContratosForm extends StatelessWidget {
                   autofocus: false,
                   textInputAction: TextInputAction.newline,
                   textCapitalization: TextCapitalization.sentences,
-                  initialValue: newContrato?.nombre ?? '',
+                  initialValue: newContrato.nombre ?? '',
                   decoration: InputDecoration(
                     hintText: 'Nombre de la Persona',
                     labelText: 'Nombre',
@@ -221,7 +222,7 @@ class _ContratosForm extends StatelessWidget {
                   },
                   autofocus: false,
                   keyboardType: TextInputType.number,
-                  initialValue: newContrato?.precio.toString() ?? '',
+                  initialValue: newContrato.precio.toString(),
                   textInputAction: TextInputAction.newline,
                   textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
@@ -270,21 +271,19 @@ class _ContratosForm extends StatelessWidget {
 
   _guardarValores(String mes, BuildContext context) {
     if (formKey.currentState!.validate()) {
-      if (newContrato != null) {
-        newContrato!.mes = mes;
-        newContrato!.nombre = nombre;
-        newContrato!.numero = codigo;
-        newContrato!.precio = valor;
-        BlocProvider.of<ContratoBloc>(context).add(
-            ContratoEvent.updateContratoMesEvent(keyContrat!, newContrato!));
+      if (keyContrat != null) {
+        newContrato.copyWith(
+            mes1: mes, nombre1: nombre, numero1: codigo, precio1: valor);
+
+        BlocProvider.of<GestionBufeteBloc>(context).add(
+            GestionBufeteEvent.updateContratoMesEvent(
+                keyContrat!, newContrato));
       } else {
-        newContrato = Contrato();
-        newContrato!.mes = mes;
-        newContrato!.nombre = nombre;
-        newContrato!.numero = codigo;
-        newContrato!.precio = valor;
-        BlocProvider.of<ContratoBloc>(context)
-            .add(ContratoEvent.addContratoMesEvent(newContrato!));
+        newContrato = ContratoModel(
+            mes: mes, nombre: nombre, numero: codigo, precio: valor);
+
+        BlocProvider.of<GestionBufeteBloc>(context)
+            .add(GestionBufeteEvent.addContratoMesEvent(newContrato));
       }
       Navigator.pop(context);
     }
